@@ -33,6 +33,12 @@ In a two-room toy environment, an unconstrained latent world model can drift thr
 **Trying to cross a wall:**
 ![Through inner wall](images/through_inner_wall.png)
 
+| Stress test | Unconstrained WM | DPWM constraint |
+|---|---|---|
+| Forced inner-wall movement | tunnels through wall over long rollout | remains blocked |
+| Repeated no-op | latent/image drift accumulates | remains stable |
+| Random walk | can drift through inner wall | constrained to allowed states |
+
 ## Architecture
 
 The current DPWM prototype contains the following components:
