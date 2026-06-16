@@ -28,16 +28,24 @@ The goal is to make impossible states physically inaccessible to the world model
 
 ## Key Result
 
-In a two-room toy environment, an unconstrained latent world model can drift through invalid latent regions during long rollouts. In three stress tests — forced movement into an inner wall, repeated no-op actions, and random walks — the baseline world model eventually produces physically invalid transitions. Adding the learned constraint V(z) + W(z,c) <= E prevents these failures by disallowing the illegal intermediate latent states needed for tunneling.
+In a two-room toy environment, an unconstrained latent world model can drift through invalid latent regions during long rollouts. In three stress tests — forced movement into an inner wall, repeated no-op actions, and random walks — the baseline world model eventually produces physically invalid transitions. Adding the learned constraint
+
+```text
+V(z) + W(z, c) <= E
+```
+
+prevents these failures by disallowing the illegal intermediate latent states needed for tunneling.
 
 **Trying to cross a wall:**
 ![Through inner wall](images/through_inner_wall.png)
+
+The DPWM constraint keeps the rollout stable across several stress tests:
 
 | Stress test | Unconstrained WM | DPWM constraint |
 |---|---|---|
 | Forced inner-wall movement | tunnels through wall over long rollout | remains blocked |
 | Repeated no-op | latent/image drift accumulates | remains stable |
-| Random walk | can drift through inner wall | constrained to allowed states |
+| Random walk | can tunnel through inner wall | constrained to allowed states |
 
 ## Architecture
 
