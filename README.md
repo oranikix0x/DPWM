@@ -48,10 +48,12 @@ V(z) + W(z, c) <= E
 
 prevents these failures by disallowing the illegal intermediate latent states needed for tunneling.
 
-**Trying to cross a wall:**
-![Through inner wall](images/through_inner_wall.png)
+Trying to cross a wall:
 
-The DPWM constraint keeps the rollout stable across several stress tests:
+"Through inner wall" (images/through_inner_wall.png)
+
+*Figure: Long-horizon rollout comparison for the inner-wall stress test. The plot contains 12 sampled time points from a 2048-step rollout, so consecutive columns are approximately 2048 / 12 steps apart. Rows compare the ground-truth rollout, the unconstrained world model, the world model constrained with "V", and the world model constrained with both "V" and "W". Each cell is split into two panels: the latent-space state on the left, with the allowed region shown in green when applicable, and the decoded scene on the right. In the scene view, the agent is red, walls are gray, and free floor is white. The unconstrained world model eventually tunnels through the inner wall, while the "V + W <= E" constraint keeps the rollout within the allowed latent region.
+The DPWM constraint keeps the rollout stable across several stress tests:*
 
 | Stress test | Unconstrained WM | DPWM constraint |
 |---|---|---|
