@@ -133,9 +133,6 @@ These results are preliminary and currently demonstrated only in a toy environme
 
 * The experiment is currently limited to a simple two-room environment.
 * The context model only uses the most recent transformative action.
-* The recurrent context mechanism is not implemented yet.
-* The learned potentials still need to be tested in more complex environments.
-* The approach has not yet been validated on high-dimensional environments such as Minecraft.
 
 ## Roadmap
 
