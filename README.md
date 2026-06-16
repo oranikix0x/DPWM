@@ -26,9 +26,21 @@ V(z) + W(z, c) <= E
 
 The goal is to make impossible states physically inaccessible to the world model, rather than only hoping the model learns to avoid them from rollout data.
 
+## Latent-Space Interpretation
+
+In the current toy experiment, the latent space is intentionally low-dimensional and position-like so that the learned potentials can be plotted and inspected. This is a visualization choice, not a requirement of DPWM.
+
+In general, `z` can be any learned latent representation of an image or world state. The potentials are not meant to encode a hand-designed position constraint. Instead, they learn constraints over the latent manifold induced by the encoder and world model:
+
+- `V(z)` learns which latent states are globally valid, corresponding to states or images that can exist at all.
+- `W(z, c)` learns which latent states are valid or reachable under the current context.
+- The constraint `V(z) + W(z, c) <= E` restricts rollout to the learned feasible region.
+
+The two-room environment is used only as a minimal setting where these learned constraints can be visualized. The intended use case is higher-dimensional learned latent spaces, where invalid states may correspond to impossible images, inconsistent object configurations, or futures that are visually plausible in isolation but unreachable given the world history.
+
 ## Key Result
 
-In a two-room toy environment, an unconstrained latent world model can drift through invalid latent regions during long rollouts. In three stress tests — forced movement into an inner wall, repeated no-op actions, and random walks — the baseline world model eventually produces physically invalid transitions. Adding the learned constraint
+In a two-room toy environment, an unconstrained latent world model can drift through invalid regions during long rollouts. In three stress tests — forced movement into an inner wall, repeated no-op actions, and random walks — the baseline world model eventually produces physically invalid transitions. Adding the learned constraint
 
 ```text
 V(z) + W(z, c) <= E
