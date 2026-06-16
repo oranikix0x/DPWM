@@ -47,6 +47,10 @@ The DPWM constraint keeps the rollout stable across several stress tests:
 | Repeated no-op | latent/image drift accumulates | remains stable |
 | Random walk | can tunnel through inner wall | constrained to allowed states |
 
+## Scope
+
+This is a toy proof-of-concept, not a full-scale video world model. The goal is to isolate one failure mode of learned latent dynamics — long-horizon tunneling through invalid intermediate states — and test whether learned energy constraints can prevent it.
+
 ## Architecture
 
 The current DPWM prototype contains the following components:
@@ -92,6 +96,25 @@ The current DPWM prototype contains the following components:
 
    ![Learned potential landscape](images/potentials_3d.png)
    ![Constraint probability surface](images/probabilities_3d.png)
+
+6. **Diagram**
+
+```text
+image_t ──> encoder ──> z_t
+                         │
+action_t, context_t ─────┤
+                         ▼
+                    world model
+                         │
+                         ▼
+                      z_{t+1}
+                         │
+                V(z) + W(z,c) <= E ?
+                │                 │
+              yes                no
+                │                 │
+              decode           project ── decode
+```
 
 ## Toy Environment
 
@@ -157,8 +180,8 @@ These results are preliminary and currently demonstrated only in a toy environme
 
 Planned improvements include:
 
-* implementing a recurrent context model,
-* expanding beyond the two-room toy environment,
+* implementing a recurrent context model
+* expanding beyond the two-room toy environment
 
 ## Installation
 
@@ -296,6 +319,10 @@ This repository is a research prototype. The goal is to explore whether learned 
 DPWM was motivated by issues observed in PRISM, an earlier action-conditioned visual world model. PRISM showed that image prediction models can produce plausible-looking frames while drifting away from the actual state of the world during test-time rollouts.
 
 DPWM is an attempt to make the latent dynamics more physically constrained by learning which states are globally possible and which states are possible under the current context.
+
+## Contact
+
+Oran Casimiro — [oran.casimiro@hotmail.com]
 
 ## License
 
