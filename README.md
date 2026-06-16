@@ -26,6 +26,13 @@ V(z) + W(z, c) <= E
 
 The goal is to make impossible states physically inaccessible to the world model, rather than only hoping the model learns to avoid them from rollout data.
 
+## Key Result
+
+In a two-room toy environment, an unconstrained latent world model can drift through invalid latent regions during long rollouts. In three stress tests — forced movement into an inner wall, repeated no-op actions, and random walks — the baseline world model eventually produces physically invalid transitions. Adding the learned constraint V(z) + W(z,c) <= E prevents these failures by disallowing the illegal intermediate latent states needed for tunneling.
+
+**Trying to cross a wall:**
+![Through inner wall](images/through_inner_wall.png)
+
 ## Architecture
 
 The current DPWM prototype contains the following components:
@@ -119,9 +126,6 @@ In the toy two-room setup, the baseline world model learns many of the environme
 With the `V` and `W` potential constraints in place, the model is prevented from occupying latent states that violate the learned energy threshold. This reduces impossible transitions and supports the idea that long-rollout drift can be addressed by learned latent-space barriers, rather than only by training on longer and longer rollouts.
 
 These results are preliminary and currently demonstrated only in a toy environment.
-
-**Trying to cross a wall:**
-![Through inner wall](images/through_inner_wall.png)
 
 **Repeated no-op:**
 ![Noop drift](images/noop_drift.png)
