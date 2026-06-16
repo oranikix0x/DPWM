@@ -246,7 +246,7 @@ python3 experiments\unlocked_door\train.py --stage decoder
 After training the models, rollout visualizations can be generated with:
 
 ```powershell
-python3 experiments\unlocked_door_symbolic\rollout.py --max-frames 12
+python3 experiments\unlocked_door\rollout.py --max-frames 12
 ```
 
 The `--max-frames` argument controls how many frames are shown in the plotted rollout. For example, if the full rollout contains 2048 steps and `--max-frames 12` is used, the plot displays 12 approximately evenly spaced frames from the rollout.
@@ -254,7 +254,7 @@ The `--max-frames` argument controls how many frames are shown in the plotted ro
 On macOS or Linux:
 
 ```bash
-python3 experiments/unlocked_door_symbolic/rollout.py --max-frames 12
+python3 experiments/unlocked_door/rollout.py --max-frames 12
 ```
 
 The rollout script is used to visualize the main stress tests shown in this README:
