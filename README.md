@@ -68,6 +68,7 @@ The current DPWM prototype contains the following components:
    ```
 
 5. **Dual Potentials**
+
    The predicted latent state is constrained by the learned potentials:
 
     ```text
@@ -96,7 +97,7 @@ Whenever an action changes the world in a meaningful way, it is added to a histo
 * the image at that moment,
 * the action that caused the transformation.
 
-For now, the context model only uses the most recent succesful transformative action. This is a simplification of the longer-term goal, where context should accumulate over time.
+For now, the context model only uses the most recent successful transformative action. This is a simplification of the longer-term goal, where context should accumulate over time.
 
 ## Motivation
 
@@ -149,6 +150,22 @@ Planned improvements include:
 
 ```bash
 pip install -r requirements.txt
+```
+
+## Generate the toy-environment data
+
+The dataset for the two-room door environment can be generated with:
+
+```powershell
+python3 src\dpwm\data\generator.py
+```
+
+This creates the synthetic environment data used to train the autoencoder, potentials, context model, and world model.
+
+On macOS or Linux, use forward slashes instead:
+
+```bash
+python3 src/dpwm/data/generator.py
 ```
 
 ## Training
@@ -210,6 +227,36 @@ python3 experiments\unlocked_door\train.py --stage ctx_w
 python3 experiments\unlocked_door\train.py --stage decoder
 ```
 
+## Generate rollout plots
+
+After training the models, rollout visualizations can be generated with:
+
+```powershell
+python3 experiments\unlocked_door_symbolic\rollout.py --max-frames 12
+```
+
+The `--max-frames` argument controls how many frames are shown in the plotted rollout. For example, if the full rollout contains 2048 steps and `--max-frames 12` is used, the plot displays 12 approximately evenly spaced frames from the rollout.
+
+On macOS or Linux:
+
+```bash
+python3 experiments/unlocked_door_symbolic/rollout.py --max-frames 12
+```
+
+The rollout script is used to visualize the main stress tests shown in this README:
+
+* forced movement through the inner wall,
+* repeated no-op actions,
+* random-walk rollouts.
+
+These plots compare the unconstrained world model against the constrained DPWM rollout using the learned condition:
+
+```text
+V(z) + W(z, c) <= E
+```
+
+In the unconstrained rollout, the world model can sometimes drift or tunnel through invalid latent states. With the `V + W <= E` restriction, those illegal intermediate states are disallowed, preventing the tunneling behavior.
+
 ## Notes
 
 The current experiment is located in:
@@ -238,4 +285,4 @@ DPWM is an attempt to make the latent dynamics more physically constrained by le
 
 ## License
 
-Add a license here.
+This project is released under the MIT License. See [LICENSE](LICENSE).
